@@ -7,23 +7,19 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN chmod +x ./node_modules/.bin/react-scripts
 RUN npm run build
 
 # Etapa de ejecución
-FROM node:18-alpine
-
-WORKDIR /app
+FROM nginx:alpine
 
 # Copia los archivos construidos desde la etapa de construcción
-COPY --from=builder /app/build ./build
-COPY package*.json ./
+COPY --from=builder /app/build /usr/share/nginx/html
 
-# Instala las dependencias de producción
-RUN npm install --production
+# Copia el archivo de configuración de nginx personalizado (opcional)
+# COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expone el puerto 80 para que la aplicación sea accesible
-EXPOSE 3000
+EXPOSE 80
 
-# Inicia la aplicación
-CMD ["npm", "start"]
+# Inicia nginx en modo foreground
+CMD ["nginx", "-g", "daemon off;"]
