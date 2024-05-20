@@ -7,7 +7,6 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-RUN chmod +x ./node_modules/.bin/react-scripts
 RUN npm run build
 
 # Etapa de ejecución
@@ -15,6 +14,9 @@ FROM nginx:alpine
 
 # Copia los archivos construidos desde la etapa de construcción
 COPY --from=builder /app/build /usr/share/nginx/html
+
+# Copia el archivo de configuración de nginx personalizado
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expone el puerto 80 para que la aplicación sea accesible
 EXPOSE 80
