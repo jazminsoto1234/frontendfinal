@@ -1,14 +1,20 @@
-FROM NODE:18
+# Usar la imagen oficial de Node.js como base
+FROM node:14-alpine
 
+# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-COPY . /app
+# Copiar el package.json y package-lock.json al directorio de trabajo
+COPY package*.json ./
 
-ENV NODE_ENV=production
+# Instalar las dependencias del proyecto
+RUN npm ci
 
-RUN npm install -g serve
-RUN npm i --production
+# Copiar el código fuente del proyecto al directorio de trabajo
+COPY . .
 
-EXPOSE 3000
+# Construir la aplicación React
+RUN npm run build
 
-CMD ["npm", "run", "serve"]
+# Definir el comando para iniciar la aplicación
+CMD ["npm", "start"]
