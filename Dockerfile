@@ -16,7 +16,7 @@ FROM nginx:alpine
 COPY --from=builder /app/build /usr/share/nginx/html
 
 # Copia el archivo de configuración de nginx personalizado
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf .
 
 # Expone el puerto 80 para que la aplicación sea accesible
 EXPOSE 80
