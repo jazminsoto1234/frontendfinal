@@ -23,7 +23,7 @@ COPY package*.json ./
 RUN npm install --production
 
 # Expone el puerto 80 para que la aplicación sea accesible
-EXPOSE 8080
+EXPOSE 3000
 
 # Inicia la aplicación
 CMD ["npm", "start"]
