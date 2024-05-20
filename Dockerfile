@@ -10,8 +10,11 @@ COPY package*.json ./
 # Instalar las dependencias del proyecto
 RUN npm install
 
-# Copiar el código fuente del proyecto al directorio de trabajo
-COPY . .
+# Dar permisos de ejecución al script react-scripts
+RUN chmod +x ./node_modules/.bin/react-scripts
+
+# Cambiar al usuario "node" (no root)
+USER node
 
 # Construir la aplicación React
 RUN npm run build
