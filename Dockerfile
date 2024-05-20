@@ -8,13 +8,16 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalar las dependencias del proyecto
-RUN npm ci
+RUN npm install
 
 # Copiar el código fuente del proyecto al directorio de trabajo
 COPY . .
 
 # Construir la aplicación React
 RUN npm run build
+
+# Exponer el puerto por el que se servirá la aplicación
+EXPOSE 3000
 
 # Definir el comando para iniciar la aplicación
 CMD ["npm", "start"]
